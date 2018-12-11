@@ -6,10 +6,14 @@ from datetime import datetime
 class Record:
     def __init__(self, discipline, date=datetime.now(), rating=0):
 
-        if rating > 5:
-            print("Оценка не может быть больше 5")
-        else:
-            self.rating = rating
+        try:
+            if rating > 5 or rating < 0:
+                raise RatingException()
+            else:
+                self.rating = rating
+
+        except RatingException:
+            print("Неправильная оценка")
 
         self.discipline = discipline
         self.date = date
@@ -18,10 +22,14 @@ class Record:
     def setDateRating(self, date, rating):
         self.date = date
 
-        if rating > 5 or rating < 0:
-            print("Оценка не может быть больше 5 и меньше 0")
-        else:
-            self.rating = rating
+        try:
+            if rating > 5 or rating < 0:
+                raise RatingException()
+            else:
+                self.rating = rating
+
+        except RatingException:
+            print("Неправильная оценка")
 
     def __str__(self):
         return self.discipline + "|" + str(self.date) + "|" + str(self.rating)
@@ -58,6 +66,11 @@ class Discipline:
 
     def info(self):
         print(self.name, self.lecturer, self.hours)
+
+class RatingException(Exception):
+
+    def __init__(self):
+        Exception.__init__(self)
 
 
 record = []
